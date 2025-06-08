@@ -155,7 +155,7 @@ void print_guess(std::string guess)
 {
 	std::string output{};
 
-
+	// iterate over char's of guess to print letters or underscores
 	for (size_t i{}; i < guess.length(); ++i)
 	{
 
@@ -163,7 +163,7 @@ void print_guess(std::string guess)
 		{
 			output += "___ ";
 		}
-		else
+		else 
 		{
 			output += "_";
 			output += guess[i];
