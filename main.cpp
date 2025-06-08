@@ -1,30 +1,113 @@
 #include <iostream>
 #include <string>
 
-std::string create_guess(int word_length);
-void print_guess(int word_length);
-void print_guess(int word_length, std::string current_guesses);
 
 
+
+
+// --------------------
+// FORWARD DECLARATIONS
+// --------------------
+
+std::string create_guess(size_t word_length);
+void print_guess(std::string guess);
+void print_target_word(std::string target_word);
+
+
+// DEBUG
+
+template<class T>
+void p(T msg)
+{
+	std::cout << "DEBUG: [";
+	std::cout << msg;
+	std::cout << "]\n";
+}
+
+template<class T>
+void p(std::string preamble, T msg)
+{
+	std::cout << "DEBUG: " + preamble + " [";
+	std::cout << msg;
+	std::cout << "]\n";
+}
+
+
+
+
+
+
+
+
+
+// --------------
+//      MAIN
+// --------------
 
 
 int main()
 {
 
+	// ----- OPEN PROGRAM -----
+
 	// Start game
 	std::cout << "Welcome to Hangman!\n";
 
+	// Press any key to continue
+	//
 
 
+	// ----- MAIN MENU -----
+	// 
+	//		- Play Game
+	//		- Difficulty
+	//		- Exit
+
+
+	// ----- NEW GAME -----
+
+	// Initialize game with chosen settings
+	//
+
+
+	// ----- IN GAME -----
+	// 
+
+	// Initialise required variables
 	std::string target_word{ "hello" };
-
 	std::string guess{ create_guess(target_word.length()) };
+	p(guess);
+	
 
-	std::cout << "Target word is: \"" + target_word + "\" with length " << target_word.length() << ".\n";
-	std::cout << "Guess length is " << guess.length() << " characters long.\n";
+	// Display core game screen
 
-	print_guess(guess.length());
+	print_target_word(target_word);
 
+	guess = "ab cd";
+	p(guess);
+	print_guess(guess);
+	
+	
+
+	// Print 
+
+
+	// CORE GAME LOOP
+
+	// Ask for first guess
+	//
+
+	std::cout << "Enter first guess";
+
+	// Evaluate whether right or wrong
+	//
+
+	// IF 0 lives or game complete go to WIN or LOSE screen
+	// ELSE repeat game loop
+	//
+
+	// Return to Main Menu
+	//
 
 
 
@@ -33,12 +116,31 @@ int main()
 
 
 
-// create a string of spaces the length of inputted int value (hopefully the target word length).
-std::string create_guess(int word_length)
+
+
+
+
+
+
+
+// ------------------
+//     FUNCTIONS
+// ------------------
+
+
+// print verbose target word and length
+void print_target_word(std::string target_word)
+{
+	std::cout << "Target word is: \"" + target_word + "\" with length " << target_word.length() << "\n\n";
+}
+
+
+// create a string of spaces the length of inputted size_t value (hopefully the target word length).
+std::string create_guess(size_t word_length)
 {
 	std::string guess{};
 
-	for (int i{}; i < word_length; ++i)
+	for (size_t i{}; i < word_length; ++i)
 	{
 		guess += " ";
 	}
@@ -46,21 +148,29 @@ std::string create_guess(int word_length)
 	return guess;
 }
 
-// print only underscores of the length of a word.
-void print_guess(int word_length)
-{
-	std::string underscores{};
 
-	for (int i{}; i < word_length; ++i)
+
+// print underscored guess
+void print_guess(std::string guess)
+{
+	std::string output{};
+
+
+	for (size_t i{}; i < guess.length(); ++i)
 	{
-		underscores += " _";
+
+		if (guess[i] == ' ')
+		{
+			output += "___ ";
+		}
+		else
+		{
+			output += "_";
+			output += guess[i];
+			output += "_ ";
+		}
+
 	}
 
-	std::cout << underscores + "\n";
-}
-
-// overload of single parameter equivalent to handle adding guessed letters in too.
-void print_guess(int word_length, std::string current_guesses)
-{
-	//
+	std::cout << output + "\n";
 }
