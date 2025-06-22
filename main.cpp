@@ -12,12 +12,12 @@
 
 std::string create_guess_word(size_t word_length);
 void print_guess_word(std::string guess_word);
-void print_target_word(std::string target_word);
+void print_target_word(std::string_view target_word);
 void print_lives(int lives);
 char get_guess_char();
-bool is_char_in_string(char guess_char, std::string target_string);
-std::string update_guess_word(char guess_char, std::string old_guess, std::string target_word);
-void display_win_screen(std::string guess_word);
+bool is_char_in_string(char guess_char, std::string_view target_string);
+std::string update_guess_word(char guess_char, std::string old_guess, std::string_view target_word);
+void display_win_screen(std::string_view guess_word);
 void display_lose_screen();
 
 
@@ -85,7 +85,7 @@ int main()
 
 
 	// Initialise required variables
-	std::string target_word{ "hello" };  // <- TESTING ONLY
+	std::string_view target_word{ "hello" };  // <- TESTING ONLY
 	std::string guess_word{ create_guess_word(target_word.length()) };
 	char guess_char{};
 	int lives{ 5 };
@@ -167,17 +167,18 @@ int main()
 
 
 // print verbose target word and length
-void print_target_word(std::string target_word)
+void print_target_word(std::string_view target_word)
 {
 	std::cout 
-		<< "Target word is: \"" + target_word + "\" with length " 
-		<< target_word.length() 
+		<< "Target word is: \"" << target_word 
+		<< "\" with length " << target_word.length() 
 		<< "\n\n";
 }
 
 
 
 // create a string of spaces the length of inputted size_t value (hopefully the target word length).
+// -- Needs updating to string view when dynamic memory learnt!! --
 std::string create_guess_word(size_t word_length)
 {
 	std::string guess_word{};
@@ -193,12 +194,14 @@ std::string create_guess_word(size_t word_length)
 
 
 // verbosely print underscored guess
+// -- Needs updating to string view when dynamic memory learnt!! --
 void print_guess_word(std::string guess_word)
 {
-	std::string output{};
+	std::string output{};								
 
 	// iterate over char's of guess to print letters or underscores
-	for (size_t i{}; i < guess_word.length(); ++i)
+	size_t len{ guess_word.length() };					// So length() doesn't have to be called every loop. size_t type so no intrinsic casting for comparisons
+	for (size_t i{}; i < len; ++i)
 	{
 		if (guess_word[i] == ' ')
 		{
@@ -242,7 +245,7 @@ char get_guess_char()
 	std::cout 
 		<< "You guessed: " 
 		<< guess_char 
-		<< '\n';
+		<< "\n";
 
 	return guess_char;
 }
@@ -250,10 +253,10 @@ char get_guess_char()
 
 
 // evaluate whether a character is in a string
-bool is_char_in_string(char guess_char, std::string target_word)
+bool is_char_in_string(char guess_char, std::string_view target_word)
 {
-
-	for (size_t i{}; i < target_word.length(); ++i)
+	size_t len{ target_word.length() };					// So length() doesn't have to be called every loop. size_t type so no intrinsic casting for comparisons
+	for (size_t i{}; i < len; ++i)
 	{
 		if (guess_char == target_word[i]) return true;
 	}
@@ -264,9 +267,11 @@ bool is_char_in_string(char guess_char, std::string target_word)
 
 
 // change correctly guessed characters in old guess from spaces to correct letter from target word
-std::string update_guess_word(char guess_char, std::string guess_word, std::string target_word)
+// -- Needs updating to string_view when dynamic memory learnt!! -- and again when pass by reference learnt!!
+std::string update_guess_word(char guess_char, std::string guess_word, std::string_view target_word)
 {
-	for (size_t i{}; i < target_word.length(); ++i)
+	size_t len{ target_word.length() };					// So length() doesn't have to be called every loop. size_t type so no intrinsic casting for comparisons
+	for (size_t i{}; i < len; ++i)
 	{
 		if (guess_char == target_word[i])
 			guess_word[i] = guess_char;
@@ -278,7 +283,7 @@ std::string update_guess_word(char guess_char, std::string guess_word, std::stri
 
 
 // display win screen
-void display_win_screen(std::string guess_word)
+void display_win_screen(std::string_view guess_word)
 {
 	std::cout
 		<< "Congratulations! \'"
