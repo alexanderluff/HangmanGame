@@ -1,7 +1,7 @@
 #include <iostream>
 #include <limits>		// for clearing input buffers
 #include <string>
-
+#include <string_view>
 
 
 
@@ -85,7 +85,7 @@ int main()
 
 
 	// Initialise required variables
-	std::string target_word{ "hello" };
+	std::string target_word{ "hello" };  // <- TESTING ONLY
 	std::string guess_word{ create_guess_word(target_word.length()) };
 	char guess_char{};
 	int lives{ 5 };
